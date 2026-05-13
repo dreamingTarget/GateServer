@@ -32,6 +32,7 @@ int main()
     std::string request = root.toStyledString();
     std::cout << "request is " << request << std::endl;
 
+	// parse json string
     Json::Value root2;
     Json::Reader reader;
     reader.parse(request, root2);
