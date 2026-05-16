@@ -1,0 +1,34 @@
+#pragma once
+#include <boost/beast/http.hpp>
+#include <boost/beast.hpp>
+#include <boost/asio.hpp>
+#include <memory>
+
+namespace beast = boost::beast;
+namespace http = beast::http;
+namespace net = boost::asio;
+using tcp = boost::asio::ip::tcp;
+
+class LogicSystem;
+
+class HttpConnection : public std::enable_shared_from_this<HttpConnection>
+{
+	friend class LogicSystem;
+
+public:
+	HttpConnection(tcp::socket socket);
+	void start();
+
+private:
+	void checkDeadline();
+	void writeResponse();
+	void handleReq();
+
+private:
+	tcp::socket m_socket;
+	beast::flat_buffer m_buffer{8192};
+	http::request<http::dynamic_body> m_req;
+	http::response<http::dynamic_body> m_res;
+	net::steady_timer m_deadline{ m_socket.get_executor(), std::chrono::seconds(60) };
+};
+
