@@ -3,6 +3,7 @@
 #include <boost/beast.hpp>
 #include <boost/asio.hpp>
 #include <memory>
+#include <unordered_map>
 
 namespace beast = boost::beast;
 namespace http = beast::http;
@@ -23,6 +24,7 @@ private:
 	void checkDeadline();
 	void writeResponse();
 	void handleReq();
+	void preParseGetParam();
 
 private:
 	tcp::socket m_socket;
@@ -30,5 +32,8 @@ private:
 	http::request<http::dynamic_body> m_req;
 	http::response<http::dynamic_body> m_res;
 	net::steady_timer m_deadline{ m_socket.get_executor(), std::chrono::seconds(60) };
+
+	std::string m_get_url;
+	std::unordered_map<std::string, std::string> m_get_params;
 };
 

@@ -23,6 +23,8 @@ public:
 	~LogicSystem() = default;
 	bool handleRequest(std::string url, std::shared_ptr<HttpConnection> conn);
 	void regGet(std::string url, HttpHandler handler);
+	void regPost(std::string url, HttpHandler handler);
+	bool handlePost(std::string url, std::shared_ptr<HttpConnection> conn);
 
 private:
 	LogicSystem();

@@ -12,6 +12,7 @@ int main()
 			ioc.stop();
 			});
 		std::make_shared<CServer>(ioc, port)->start();
+		std::cout << "server is running on port " << port << std::endl;
 		ioc.run();
 	}
 	catch (const std::exception& exp)
