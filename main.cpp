@@ -1,10 +1,15 @@
 #include <iostream>
 #include "CServer.h"
+#include "ConfigMgr.h"
 
 int main()
 {
 	try {
-		unsigned short port = 8080;
+		ConfigMgr config;
+		std::string port_str = config["GateServer"]["port"];
+		unsigned short port = static_cast<unsigned short>(std::stoi(port_str));
+
+		//unsigned short port = 8080;
 		net::io_context ioc{ 1 };
 		boost::asio::signal_set signals(ioc, SIGINT, SIGTERM);
 		signals.async_wait([&](beast::error_code const& error, int) {

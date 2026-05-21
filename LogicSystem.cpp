@@ -4,6 +4,7 @@
 #include <json/value.h>
 #include <json/reader.h>
 #include "Const.h"
+#include "VerifyGrpcClient.h"
 
 bool LogicSystem::handleRequest(std::string url, std::shared_ptr<HttpConnection> conn)
 {
@@ -68,8 +69,11 @@ LogicSystem::LogicSystem() {
 		}
 
 		auto email = src_root["email"].asString();
+
+		GetVerifyRes res = VerifyGrpcClient::getInstance()->getVerifyCode(email);
+
 		std::cout << "email: " << email << std::endl;
-		root["error"] = 0;
+		root["error"] = res.error();
 		root["email"] = src_root["email"];
 		std::string jsonstr = root.toStyledString();
 		beast::ostream(conn->m_res.body()) << jsonstr;
