@@ -73,6 +73,7 @@ LogicSystem::LogicSystem() {
 		GetVerifyRes res = VerifyGrpcClient::getInstance()->getVerifyCode(email);
 
 		std::cout << "email: " << email << std::endl;
+		std::cout << "grpc res code: " << res.code() << ", error: " << res.error() << std::endl;
 		root["error"] = res.error();
 		root["email"] = src_root["email"];
 		std::string jsonstr = root.toStyledString();

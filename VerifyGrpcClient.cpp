@@ -20,6 +20,6 @@ GetVerifyRes VerifyGrpcClient::getVerifyCode(const std::string& email)
 
 VerifyGrpcClient::VerifyGrpcClient()
 {
-	std::shared_ptr<Channel> channel = grpc::CreateChannel("0.0.0.0:50051", grpc::InsecureChannelCredentials());
+	std::shared_ptr<Channel> channel = grpc::CreateChannel("127.0.0.1:50051", grpc::InsecureChannelCredentials());
 	m_stub = VerifyService::NewStub(channel);
 }
