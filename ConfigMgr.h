@@ -40,20 +40,27 @@ public:
 		return m_config_map[section];
 	}
 
-	ConfigMgr();
+	//ConfigMgr(const ConfigMgr& other) {
+	//	m_config_map = other.m_config_map;
+	//}
 
-	ConfigMgr(const ConfigMgr& other) {
-		m_config_map = other.m_config_map;
-	}
+	//ConfigMgr& operator=(const ConfigMgr& other) {
+	//	if (this != &other) {
+	//		m_config_map = other.m_config_map;
+	//	}
+	//	return *this;
+	//}
 
-	ConfigMgr& operator=(const ConfigMgr& other) {
-		if (this != &other) {
-			m_config_map = other.m_config_map;
-		}
-		return *this;
+	ConfigMgr(const ConfigMgr&) = delete;
+	ConfigMgr& operator=(const ConfigMgr&) = delete;
+
+	static ConfigMgr& getInstance() {
+		static ConfigMgr instance;
+		return instance;
 	}
 
 private:
+	ConfigMgr();
 	std::map<std::string, SectionInfo> m_config_map;
 };
 

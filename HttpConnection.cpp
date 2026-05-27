@@ -2,7 +2,8 @@
 #include <iostream>
 #include "LogicSystem.h"
 
-HttpConnection::HttpConnection(tcp::socket socket) : m_socket(std::move(socket))
+HttpConnection::HttpConnection(/*tcp::socket socket*/boost::asio::io_context& ioc) 
+	: m_socket(/*std::move(socket)*/ioc)
 {
 }
 
