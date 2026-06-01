@@ -109,7 +109,7 @@ void TestRedisMgr() {
 int main()
 {
     //TestRedis();
-	TestRedisMgr();
+	//TestRedisMgr();
 
 	try {
 		//ConfigMgr config;
