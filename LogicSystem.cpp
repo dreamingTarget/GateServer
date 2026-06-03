@@ -6,6 +6,7 @@
 #include "Const.h"
 #include "VerifyGrpcClient.h"
 #include "RedisMgr.h"
+#include "MysqlMgr.h"
 
 bool LogicSystem::handleRequest(std::string url, std::shared_ptr<HttpConnection> conn)
 {
@@ -125,9 +126,18 @@ LogicSystem::LogicSystem() {
 		//	return true;
 		//}
 		//查找数据库判断用户是否存在
+		int uid = MysqlMgr::getInstance()->regUser(src_root["user"].asString(), src_root["email"].asString(), src_root["passwd"].asString());
+		if (uid == 0 || uid == -1) {
+			std::cout << " user exist" << std::endl;
+			root["error"] = ErrorCodes::UserExist;
+			std::string jsonstr = root.toStyledString();
+			beast::ostream(connection->m_res.body()) << jsonstr;
+			return true;
+		}
 
 		root["error"] = 0;
 		root["email"] = src_root["email"];
+		root["uid"] = uid;
 		root["user"] = src_root["user"].asString();
 		root["passwd"] = src_root["passwd"].asString();
 		root["confirm"] = src_root["confirm"].asString();

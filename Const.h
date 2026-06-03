@@ -1,4 +1,5 @@
 #pragma once
+#include <functional>
 
 enum ErrorCodes
 {
@@ -15,3 +16,14 @@ enum ErrorCodes
 };
 
 constexpr auto CODEPROFIX = "code_";
+
+class Defer {
+public:
+	Defer(std::function<void()> func) : m_func(func) {}
+	~Defer() {
+		if (m_func) m_func();
+	}
+
+private:
+	std::function<void()> m_func;
+};
