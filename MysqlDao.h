@@ -9,13 +9,17 @@
 #include <jdbc/cppconn/exception.h>
 #include <queue>
 #include <mutex>
+#include <condition_variable>
 
 class SqlConnection {
 	friend class MysqlPool;
 	friend class MysqlDao;
 
 public:
-	SqlConnection(sql::Connection* conn, int64_t lasttime);
+	SqlConnection(sql::Connection* conn, int64_t lasttime) :
+		m_conn(conn), m_last_oper_time(lasttime) {
+
+	}
 
 private:
 	std::unique_ptr<sql::Connection> m_conn;
@@ -60,9 +64,9 @@ public:
 	~MysqlDao();
 	int regUser(const std::string& name, const std::string& email, const std::string& pwd);
 
-	//bool checkEmail(const std::string& name, const std::string& email);
-	//bool updatePwd(const std::string& name, const std::string& pwd);
-	//bool checkPwd(const std::string& email, const std::string& pwd, UserInfo& userInfo);
+	bool checkEmail(const std::string& name, const std::string& email);
+	bool updatePwd(const std::string& name, const std::string& pwd);
+	bool checkPwd(const std::string& email, const std::string& pwd, UserInfo& userInfo);
 
 private:
 	std::unique_ptr<MysqlPool> m_sqlpool;
