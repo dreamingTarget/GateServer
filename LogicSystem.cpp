@@ -145,6 +145,9 @@ LogicSystem::LogicSystem() {
 		root["verifycode"] = src_root["verifycode"].asString();
 		std::string jsonstr = root.toStyledString();
 		beast::ostream(connection->m_res.body()) << jsonstr;
+		std::cout << "register_user:   " << root["user"] << std::endl;
+		std::cout << "register_user:   " << root["user"].asString() << std::endl;
+		std::cout << "register_info:   " << jsonstr << std::endl;
 		return true;
 		});
 
